@@ -1,0 +1,3 @@
+[submodule "themes/github.com~almasaeed2010~AdminLTE"]
+	path = themes/github.com~almasaeed2010~AdminLTE
+	url = git@github.com:almasaeed2010/AdminLTE.git
