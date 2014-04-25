@@ -27,6 +27,23 @@ exports.main = function(callback) {
 	    });
 
 	    app.get(/^\//, function (req, res, next) {
+	    	if (req.headers['x-theme']) {
+	    		if (/\//.test(req.headers['x-theme'])) {
+	    			res.writeHead(404);
+	    			return res.end();
+	    		}
+	    		var path = PATH.join(__dirname, "themes", req.headers['x-theme']);
+	    		return FS.exists(path, function(exists) {
+	    			if (!exists) {
+		    			res.writeHead(404);
+		    			return res.end();
+	    			}
+					return SEND(req, req._parsedUrl.pathname)
+						.root(path)
+						.on('error', next)
+						.pipe(res);
+	    		});
+	    	}
 			return SEND(req, req._parsedUrl.pathname)
 				.root(PATH.join(__dirname, "www"))
 				.on('error', next)
